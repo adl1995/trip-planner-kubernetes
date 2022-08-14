@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: trip-planner-service
+spec:
+  selector:
+    app: hello-trip-planner
+  ports:
+  - protocol: "TCP"
+    port: 8080
+    targetPort: 8080
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-trip-planner
+spec:
+  selector:
+    matchLabels:
+      app: hello-trip-planner
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hello-trip-planner
+    spec:
+      containers:
+      - name: trip-planner
+        image: trip-planner:local
+        imagePullPolicy: Never
